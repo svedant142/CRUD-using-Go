@@ -3,8 +3,6 @@ package layer1
 import (
 	layer2 "crud/BusinessLayer"
 	g "crud/getinfo"
-
-	//layer3 "crud/layer3"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
