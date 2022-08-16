@@ -3,7 +3,8 @@ package layer1
 import (
 	layer2 "crud/BusinessLayer"
 	g "crud/getinfo"
-	layer3 "crud/layer3"
+
+	//layer3 "crud/layer3"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
@@ -16,35 +17,16 @@ type layer1interface interface {
 	Read(c *gin.Context)
 }
 type layer1repo struct {
-	repo layer2.IAddBusiness
-}
-type Request_to_create struct {
-	Newid     int    `form:"id"`
-	Newname   string `form:"name"`
-	Newsalary int    `form:"salary"`
-}
-type Request_to_update struct {
-	Newid     int `form:"id"`
-	Newsalary int `form:"salary"`
-}
-type Request_to_delete struct {
-	Newid int `form:"id"`
-}
-type Response_to_read struct {
-	Info []g.Getuser
+	repo layer2.IBusiness
 }
 
-func Initialize() layer1interface {
-	r3 := layer3.Initialize_database()
-
-	//r3 = layer3.initialize_database()
-	r2 := layer2.NewBusinessLogic(r3)
+func Initialize(r2 layer2.IBusiness) layer1interface {
 	return layer1repo{repo: r2}
 
 }
 
 func (l1 layer1repo) Create(c *gin.Context) {
-	var req Request_to_create
+	var req g.Request_to_create
 	c.BindQuery(&req)
 	fmt.Println(req.Newid, req.Newname, req.Newsalary)
 	created := l1.repo.CreatefromLayer3(req.Newid, req.Newname, req.Newsalary)
@@ -57,7 +39,7 @@ func (l1 layer1repo) Create(c *gin.Context) {
 }
 
 func (l1 layer1repo) Read(c *gin.Context) {
-	var res Response_to_read
+	var res g.Response_to_read
 	res.Info = l1.repo.ReadfromLayer3()
 	fmt.Println("here now")
 	fmt.Print(res.Info)
@@ -65,7 +47,7 @@ func (l1 layer1repo) Read(c *gin.Context) {
 }
 
 func (l1 layer1repo) Update(c *gin.Context) {
-	var req Request_to_update
+	var req g.Request_to_update
 	c.BindQuery(&req)
 	//fmt.Println(req.Newid, req.Newname, req.Newsalary)
 	created := l1.repo.UpdatefromLayer3(req.Newid, req.Newsalary)
@@ -77,7 +59,7 @@ func (l1 layer1repo) Update(c *gin.Context) {
 
 }
 func (l1 layer1repo) Delete(c *gin.Context) {
-	var req Request_to_delete
+	var req g.Request_to_delete
 	c.BindQuery(&req)
 	//fmt.Println(req.Newid, req.Newname, req.Newsalary)
 	created := l1.repo.DeletefromLayer3(req.Newid)

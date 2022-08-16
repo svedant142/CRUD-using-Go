@@ -9,17 +9,18 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type IAddBusinessRepo interface {
+type IBusinessRepo interface {
 	CreateUser(int, string, int) bool
 	GetAllUserInfo() []g.Getuser
 	DeleteUser(int) bool
 	UpdateUser(int, int) bool
+	
 }
 type DbLayer3 struct {
 	Db *sql.DB
 }
 
-func Initialize_database() IAddBusinessRepo {
+func Initialize_database() IBusinessRepo {
 	datab, err_db := sql.Open("mysql", "root:1234@123@tcp(127.0.0.1:3306)/dotDB")
 	if err_db != nil {
 		fmt.Println("error accessing database")
@@ -27,7 +28,6 @@ func Initialize_database() IAddBusinessRepo {
 	d := DbLayer3{datab}
 	return d
 }
-
 func (l DbLayer3) GetAllUserInfo() []g.Getuser {
 
 	rows, err_row := l.Db.Query("SELECT * FROM dotDB.new_users")

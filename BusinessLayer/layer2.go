@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-type IAddBusiness interface {
+type IBusiness interface {
 	CreatefromLayer3(int, string, int) bool
 	DeletefromLayer3(int) bool
 	UpdatefromLayer3(int, int) bool
@@ -14,10 +14,10 @@ type IAddBusiness interface {
 }
 
 type BusinessLayer2 struct {
-	repo layer3.IAddBusinessRepo
+	repo layer3.IBusinessRepo
 }
 
-func NewBusinessLogic(r layer3.IAddBusinessRepo) IAddBusiness {
+func NewBusinessLogic(r layer3.IBusinessRepo) IBusiness {
 
 	return BusinessLayer2{repo: r}
 }
