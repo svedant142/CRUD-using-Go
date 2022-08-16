@@ -16,16 +16,16 @@ type layer1interface interface {
 	Update(*gin.Context)
 	Read(c *gin.Context)
 }
-type layer1repo struct {
+type layer1Struct struct {
 	repo layer2.IBusiness
 }
 
 func Initialize(r2 layer2.IBusiness) layer1interface {
-	return layer1repo{repo: r2}
+	return layer1Struct{repo: r2}
 
 }
 
-func (l1 layer1repo) Create(c *gin.Context) {
+func (l1 layer1Struct) Create(c *gin.Context) {
 	var req g.Request_to_create
 	c.BindQuery(&req)
 	fmt.Println(req.Newid, req.Newname, req.Newsalary)
@@ -38,7 +38,7 @@ func (l1 layer1repo) Create(c *gin.Context) {
 
 }
 
-func (l1 layer1repo) Read(c *gin.Context) {
+func (l1 layer1Struct) Read(c *gin.Context) {
 	var res g.Response_to_read
 	res.Info = l1.repo.ReadfromLayer3()
 	fmt.Println("here now")
@@ -46,7 +46,7 @@ func (l1 layer1repo) Read(c *gin.Context) {
 	c.JSON(200, res)
 }
 
-func (l1 layer1repo) Update(c *gin.Context) {
+func (l1 layer1Struct) Update(c *gin.Context) {
 	var req g.Request_to_update
 	c.BindQuery(&req)
 	//fmt.Println(req.Newid, req.Newname, req.Newsalary)
@@ -58,7 +58,7 @@ func (l1 layer1repo) Update(c *gin.Context) {
 	}
 
 }
-func (l1 layer1repo) Delete(c *gin.Context) {
+func (l1 layer1Struct) Delete(c *gin.Context) {
 	var req g.Request_to_delete
 	c.BindQuery(&req)
 	//fmt.Println(req.Newid, req.Newname, req.Newsalary)
@@ -68,8 +68,5 @@ func (l1 layer1repo) Delete(c *gin.Context) {
 	} else {
 		c.JSON(200, gin.H{"status": "false"})
 	}
-
-}
-func Read() {
 
 }
